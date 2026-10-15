@@ -1,0 +1,53 @@
+# ==============================================================================
+# SESI Alimenta - Regras de Exclusão do Git (.gitignore)
+# ==============================================================================
+
+# Variáveis de ambiente e segredos locais (NUNCA versionar segredos)
+.env*
+!.env.example
+
+# Bancos de dados locais SQLite, transações WAL e backups
+*.db
+*.db*
+*.sqlite
+*.sqlite*
+sqlite.db
+sqlite.db-wal
+sqlite.db-shm
+backups/
+dumps/
+*.dump
+
+# Dependências de pacotes
+node_modules/
+site/node_modules/
+
+# Builds e artefatos compilados
+dist/
+dist-ssr/
+build/
+site/dist/
+
+# Logs e relatórios de auditoria local
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+audit_report.json
+
+# Arquivos de sistema operacional
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Diretórios de agentes, ferramentas e arquivos temporários de desenvolvimento
+.agent/
+.agents/
+scratch/
+*.tmp
+*.bak
+*.xlsx
+.system_generated/
+.user_uploaded/
+PROJECT.md

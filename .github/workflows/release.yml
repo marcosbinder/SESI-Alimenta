@@ -1,0 +1,95 @@
+name: Release & Deployment Packaging
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-release:
+    name: Build, Package & Publish Release
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Source Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node.js 22.x LTS
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22.x
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: |
+          npm ci
+          cd site && npm ci && cd ..
+
+      - name: Build Frontend Production Bundle (Vite)
+        working-directory: ./site
+        run: npm run build
+
+      - name: Run Quality Verification Tests
+        env:
+          JWT_SECRET: release-packaging-test-secret-key-with-64-characters-0123456789abcdef
+          COOKIE_SECURE: false
+          NODE_ENV: test
+        run: npm test
+
+      - name: Assemble Clean Release Distribution
+        run: |
+          RELEASE_TAG="${{ github.ref_name }}"
+          DIST_DIR="dist_package/sesi-alimenta-${RELEASE_TAG}"
+          mkdir -p "${DIST_DIR}"
+
+          # Copiar artefatos essenciais de execução
+          cp -r src "${DIST_DIR}/"
+          cp -r scripts "${DIST_DIR}/"
+          cp -r drizzle "${DIST_DIR}/"
+          cp drizzle.config.js "${DIST_DIR}/"
+          cp package.json "${DIST_DIR}/"
+          cp package-lock.json "${DIST_DIR}/"
+          cp .env.example "${DIST_DIR}/"
+          cp LICENSE "${DIST_DIR}/"
+          cp README.md "${DIST_DIR}/"
+          cp README.pt-BR.md "${DIST_DIR}/"
+          cp CHANGELOG.md "${DIST_DIR}/"
+
+          # Copiar build compilado do frontend
+          mkdir -p "${DIST_DIR}/site"
+          cp -r site/dist "${DIST_DIR}/site/"
+          cp site/package.json "${DIST_DIR}/site/"
+
+          # Compactar em .tar.gz e .zip
+          cd dist_package
+          tar -czf "../sesi-alimenta-${RELEASE_TAG}.tar.gz" "sesi-alimenta-${RELEASE_TAG}"
+          zip -rq "../sesi-alimenta-${RELEASE_TAG}.zip" "sesi-alimenta-${RELEASE_TAG}"
+          cd ..
+
+      - name: Extract Changelog Section
+        id: changelog
+        shell: bash
+        run: |
+          TAG="${{ github.ref_name }}"
+          VERSION="${TAG#v}"
+          sed -n "/## \[${VERSION}\]/,/## \[/p" CHANGELOG.md | sed '$d' > RELEASE_NOTES.md || true
+          if [ ! -s RELEASE_NOTES.md ]; then
+            echo "Release ${TAG} of SESI Alimenta ERP." > RELEASE_NOTES.md
+          fi
+
+      - name: Publish GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          body_path: RELEASE_NOTES.md
+          draft: false
+          prerelease: false
+          files: |
+            sesi-alimenta-${{ github.ref_name }}.tar.gz
+            sesi-alimenta-${{ github.ref_name }}.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

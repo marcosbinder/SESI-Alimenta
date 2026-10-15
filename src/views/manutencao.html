@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sistema em Manutenção • SESI Alimenta</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    body {
+      background-image: linear-gradient(to bottom, rgba(12, 10, 9, 0.88), rgba(20, 20, 22, 0.94)), url('/bg_pattern.png');
+      background-size: cover;
+      background-position: center top;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      background-color: #0c0a09;
+      color: #fafaf9;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+      overflow-x: hidden;
+      position: relative;
+    }
+    .grid-bg {
+      position: absolute;
+      inset: 0;
+      background-image: linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px),
+                        linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px);
+      background-size: 32px 32px;
+      pointer-events: none;
+    }
+    .card {
+      background: rgba(28, 25, 23, 0.85);
+      border: 1px solid rgba(249, 115, 22, 0.2);
+      backdrop-filter: blur(16px);
+      border-radius: 2rem;
+      padding: 2.5rem 2rem;
+      max-width: 540px;
+      width: 100%;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 40px rgba(234, 88, 12, 0.1);
+      position: relative;
+      z-index: 10;
+      text-align: center;
+      animation: fadeIn 0.6s ease-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(249, 115, 22, 0.15);
+      border: 1px solid rgba(249, 115, 22, 0.35);
+      color: #fb923c;
+      padding: 0.4rem 1rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 1.5rem;
+    }
+    .pulse-dot {
+      width: 8px;
+      height: 8px;
+      background: #ea580c;
+      border-radius: 50%;
+      animation: pulse 1.8s infinite;
+    }
+    @keyframes pulse {
+      0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(234, 88, 12, 0.7); }
+      70% { transform: scale(1.1); box-shadow: 0 0 0 8px rgba(234, 88, 12, 0); }
+      100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(234, 88, 12, 0); }
+    }
+    .icon-wrapper {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 1.5rem;
+      background: linear-gradient(135deg, rgba(249, 115, 22, 0.2), rgba(249, 115, 22, 0.05));
+      border: 1px solid rgba(249, 115, 22, 0.3);
+      border-radius: 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #f97316;
+      box-shadow: 0 8px 24px rgba(249, 115, 22, 0.15);
+    }
+    .icon-gear {
+      animation: spin 12s linear infinite;
+    }
+    @keyframes spin {
+      100% { transform: rotate(360deg); }
+    }
+    h1 {
+      font-size: 1.75rem;
+      font-weight: 900;
+      color: #fafaf9;
+      letter-spacing: -0.03em;
+      margin-bottom: 0.75rem;
+    }
+    p.description {
+      font-size: 0.95rem;
+      color: #a8a29e;
+      line-height: 1.6;
+      font-weight: 500;
+      margin-bottom: 1.75rem;
+    }
+    .info-box {
+      background: rgba(12, 10, 9, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 1.25rem;
+      padding: 1rem 1.25rem;
+      margin-bottom: 1.75rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      text-align: left;
+    }
+    .info-label {
+      font-size: 0.7rem;
+      font-weight: 800;
+      color: #78716c;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .info-val {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #e7e5e4;
+      margin-top: 0.2rem;
+    }
+    .reconnect-bar {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      font-size: 0.8rem;
+      color: #78716c;
+      font-weight: 600;
+    }
+    .spinner {
+      width: 14px;
+      height: 14px;
+      border: 2px solid rgba(249, 115, 22, 0.2);
+      border-top-color: #f97316;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    .footer-admin {
+      margin-top: 2rem;
+      font-size: 0.75rem;
+      color: #57534e;
+      z-index: 10;
+    }
+    .footer-admin a {
+      color: #78716c;
+      text-decoration: underline;
+      text-underline-offset: 4px;
+      transition: color 0.2s;
+    }
+    .footer-admin a:hover {
+      color: #f97316;
+    }
+    .food-pattern-bg {
+      position: absolute;
+      inset: 0;
+      background-image: url('/bg_pattern.png');
+      background-size: cover;
+      background-position: center top;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      filter: invert(1) hue-rotate(180deg) brightness(0.55) contrast(1.3);
+      opacity: 0.90;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="food-pattern-bg"></div>
+
+  <div class="card">
+    <div class="badge">
+      <span class="pulse-dot"></span>
+      <span>Manutenção Programada</span>
+    </div>
+
+    <div class="icon-wrapper">
+      <svg class="icon-gear" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/>
+        <circle cx="12" cy="12" r="3"/>
+      </svg>
+    </div>
+
+    <h1>SESI Alimenta</h1>
+    <p id="mensagemTexto" class="description">
+      {{MENSAGEM}}
+    </p>
+
+    <div class="info-box">
+      <div>
+        <div class="info-label">Previsão de Retorno</div>
+        <div id="previsaoTexto" class="info-val">{{PREVISAO}}</div>
+      </div>
+      <div>
+        <div class="info-label">Status da Conexão</div>
+        <div id="statusTexto" class="info-val" style="color: #fb923c;">Aguardando Servidor...</div>
+      </div>
+    </div>
+
+    <div class="reconnect-bar">
+      <div class="spinner"></div>
+      <span id="reconnectMsg">Monitorando retorno em tempo real...</span>
+    </div>
+  </div>
+
+  <div class="footer-admin">
+    Equipe Técnica de TI • <a href="/admin">Acesso Administrativo (/admin)</a>
+  </div>
+
+  <script>
+    // Polling inteligente que testa o retorno do servidor e recarrega a página automaticamente assim que estiver online
+    let tentativas = 0;
+    const checarServidor = async () => {
+      tentativas++;
+      try {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 2000);
+        
+        const res = await fetch('/api/status-manutencao', { signal: controller.signal, credentials: 'include' });
+        clearTimeout(timeoutId);
+
+        if (res.ok) {
+          const json = await res.json();
+          if (!json.modoManutencao && !json.emManutencao) {
+            document.getElementById('statusTexto').textContent = 'Servidor Online!';
+            document.getElementById('statusTexto').style.color = '#4ade80';
+            document.getElementById('reconnectMsg').textContent = 'Restaurando sua sessão...';
+            setTimeout(() => {
+              window.location.reload();
+            }, 600);
+            return;
+          } else if (json.mensagem) {
+            document.getElementById('mensagemTexto').textContent = json.mensagem;
+            if (json.previsao) document.getElementById('previsaoTexto').textContent = json.previsao;
+          }
+        }
+      } catch (err) {
+        document.getElementById('statusTexto').textContent = 'Reiniciando motor (' + tentativas + 's)...';
+      }
+      setTimeout(checarServidor, 2000);
+    };
+
+    setTimeout(checarServidor, 1500);
+  </script>
+</body>
+</html>
