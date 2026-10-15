@@ -11,6 +11,30 @@ process.env.JWT_SECRET = JWT_SECRET;
 console.log('--- STARTING BACKEND INTEGRATION & SECURITY SUITE ---');
 await initDB();
 
+// Ensure base test fixtures exist in database (self-contained for fresh test runs)
+let testUser = (await db.select().from(usuarios).limit(1))[0];
+if (!testUser) {
+  const hash = await bcrypt.hash('SenhaTeste123!', 10);
+  await db.insert(usuarios).values({
+    usuario: 'test_admin_user',
+    senha: hash,
+    tipo: 'admin',
+    ativo: 1,
+    token_version: 1
+  }).onConflictDoNothing();
+  testUser = (await db.select().from(usuarios).limit(1))[0];
+}
+
+let testTurma = (await db.select().from(turmas).limit(1))[0];
+if (!testTurma) {
+  await db.insert(turmas).values({
+    nivel: 'Ensino Médio',
+    ano: 1,
+    identificador: 'A'
+  });
+  testTurma = (await db.select().from(turmas).limit(1))[0];
+}
+
 // Test 1: Cryptographic device_trust signature validation
 {
   const fakeDeviceTrustCookie = 'true';
@@ -56,8 +80,7 @@ await initDB();
 
 // Test 4: Database integrity for feedbacks_lidos
 {
-  const existingUser = (await db.select().from(usuarios).limit(1))[0];
-  const testUserId = existingUser ? existingUser.id : 1;
+  const testUserId = testUser.id;
   const testFeedbackId = 'feedback_test_' + Date.now();
   const dataHoje = new Date().toISOString();
 
@@ -117,8 +140,7 @@ await initDB();
     FROM calendario
   `);
   if (!stats || stats.total === 0) {
-    const existingTurma = (await db.select().from(turmas).limit(1))[0];
-    const tId = existingTurma ? existingTurma.id : 1;
+    const tId = testTurma.id;
     await db.insert(calendario).values({
       data: '2026-08-01',
       turma_id: tId,
@@ -144,8 +166,7 @@ await initDB();
 // Test 8: Structured Menu Decomposition & Separation Rules (Almoço vs Lanche)
 {
   const testData = '2099-12-31';
-  const existingTurma = (await db.select().from(turmas).limit(1))[0];
-  const testTurmaId = existingTurma ? existingTurma.id : 1;
+  const testTurmaId = testTurma.id;
 
   // Cleanup any previous test data
   await db.delete(calendario).where(sql`${calendario.data} = ${testData}`);
@@ -279,8 +300,7 @@ await initDB();
   assert.equal(brownieCat.categoria, 'lanche');
 
   // 2. Testar batch insert em feedbacks_lidos com resiliência a conflitos
-  const existingUser = (await db.select().from(usuarios).limit(1))[0];
-  const testUserId = existingUser ? existingUser.id : 1;
+  const testUserId = testUser.id;
   const idsLote = ['fb_lote_1_' + Date.now(), 'fb_lote_2_' + Date.now()];
   const agora = new Date().toISOString();
 

@@ -37,6 +37,9 @@ jobs:
       - name: Initialize Database Schema (Drizzle Push)
         run: npx drizzle-kit push
 
+      - name: Seed Reference Data
+        run: node src/scripts/seedTurmas.js
+
       - name: Run Quality Verification Tests
         env:
           JWT_SECRET: release-packaging-test-secret-key-with-64-characters-0123456789abcdef
