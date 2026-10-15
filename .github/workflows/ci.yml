@@ -44,6 +44,9 @@ jobs:
           cp .env.example .env
           echo "JWT_SECRET=super-secret-ci-testing-key-with-64-characters-0123456789abcdef01234567" >> .env
 
+      - name: Initialize Database Schema (Drizzle Push)
+        run: npx drizzle-kit push
+
       - name: Run Complete Automated Test Suite
         env:
           JWT_SECRET: super-secret-ci-testing-key-with-64-characters-0123456789abcdef01234567

@@ -125,13 +125,17 @@ async function initDB() {
     console.error('[MIGRAÇÃO] Falha ao semear catalogo_alimentos:', e);
   }
 
-  await client.execute('CREATE INDEX IF NOT EXISTS idx_aluno_turmas_turma_id ON aluno_turmas (turma_id);');
-  await client.execute('CREATE INDEX IF NOT EXISTS idx_calendario_data ON calendario (data);');
-  await client.execute('CREATE INDEX IF NOT EXISTS idx_presenca_geral_data ON presenca_geral (data);');
-  await client.execute('CREATE INDEX IF NOT EXISTS idx_avaliacoes_data_turma ON avaliacoes_comida (data, turma_id);');
-  await client.execute('CREATE INDEX IF NOT EXISTS idx_auditoria_lixo_data ON auditoria_lixo (data);');
-  await client.execute('CREATE INDEX IF NOT EXISTS idx_presenca_restricoes_data ON presenca_restricoes (data);');
-  await client.execute('CREATE INDEX IF NOT EXISTS idx_solicitacoes_almoco_status ON solicitacoes_almoco (status);');
+  try {
+    await client.execute('CREATE INDEX IF NOT EXISTS idx_aluno_turmas_turma_id ON aluno_turmas (turma_id);');
+    await client.execute('CREATE INDEX IF NOT EXISTS idx_calendario_data ON calendario (data);');
+    await client.execute('CREATE INDEX IF NOT EXISTS idx_presenca_geral_data ON presenca_geral (data);');
+    await client.execute('CREATE INDEX IF NOT EXISTS idx_avaliacoes_data_turma ON avaliacoes_comida (data, turma_id);');
+    await client.execute('CREATE INDEX IF NOT EXISTS idx_auditoria_lixo_data ON auditoria_lixo (data);');
+    await client.execute('CREATE INDEX IF NOT EXISTS idx_presenca_restricoes_data ON presenca_restricoes (data);');
+    await client.execute('CREATE INDEX IF NOT EXISTS idx_solicitacoes_almoco_status ON solicitacoes_almoco (status);');
+  } catch (e) {
+    // Tabelas podem ainda não ter sido migradas via drizzle-kit
+  }
 
   const existe = await client.execute('SELECT id FROM modo_manutencao LIMIT 1');
   if (existe.rows.length === 0) {

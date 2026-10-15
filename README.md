@@ -11,7 +11,7 @@
   <img src="https://img.shields.io/badge/Drizzle%20ORM-0.45.2-C5F74F?style=for-the-badge&logo=drizzle&logoColor=black" alt="Drizzle ORM" />
   <img src="https://img.shields.io/badge/SQLite-WAL%20Mode-003B57?style=for-the-badge&logo=sqlite&logoColor=white" alt="SQLite WAL" />
   <img src="https://img.shields.io/badge/Security-JWT%20%2B%202FA%20%2B%20RBAC-critical?style=for-the-badge&logo=auth0&logoColor=white" alt="Security" />
-  <img src="https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge" alt="License MIT" />
+  <img src="https://img.shields.io/badge/License-GNU%20AGPLv3-blue?style=for-the-badge&logo=gnu&logoColor=white" alt="License AGPLv3" />
 </p>
 
 <p align="center">
@@ -210,7 +210,9 @@ npm test
 
 ---
 
-## 📄 License & Governance
+## 📄 License & Intellectual Property
 
-This project is open-source under the [MIT License](LICENSE).  
+This project is open-source under the **GNU Affero General Public License v3.0 (GNU AGPLv3)**.  
 Copyright (c) 2026 Marcos Binder.
+
+Under the AGPLv3, any modified version or derivative work deployed as a network service or cloud instance must provide its complete source code to the community under the same license terms. Proprietary or closed-source redistribution is strictly prohibited.

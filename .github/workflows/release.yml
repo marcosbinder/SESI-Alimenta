@@ -34,6 +34,9 @@ jobs:
         working-directory: ./site
         run: npm run build
 
+      - name: Initialize Database Schema (Drizzle Push)
+        run: npx drizzle-kit push
+
       - name: Run Quality Verification Tests
         env:
           JWT_SECRET: release-packaging-test-secret-key-with-64-characters-0123456789abcdef

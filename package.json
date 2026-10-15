@@ -1,6 +1,7 @@
 {
   "name": "sesi-alimenta",
   "version": "1.0.0",
+  "license": "AGPL-3.0-or-later",
   "main": "src/server.js",
   "scripts": {
     "start": "node src/gateway.js --spawn",
