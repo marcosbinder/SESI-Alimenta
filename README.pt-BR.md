@@ -126,15 +126,21 @@ flowchart TD
 
 ## 📸 Capturas de Tela do Sistema
 
-| Autenticação 2FA | Visão Operacional da Cozinha |
+| Portal de Acesso Institucional | Autenticação em 2 Passos (2FA TOTP) |
 | :---: | :---: |
-| *Login Seguro com TOTP e Reconhecimento de Máquina* | *Gestão de Lotes em Tempo Real e Fichas de Alergia* |
-| *(Espaço reservado: Tela de Login 2FA)* | *(Espaço reservado: Tela da Cozinha)* |
+| *Tela de login adaptativa com termos LGPD e atalho para dashboard público* | *Validação obrigatória de 6 dígitos via Authenticator com reconhecimento de dispositivo* |
+| ![Login Institucional](docs/screenshots/01-login.png) | ![Autenticação 2FA](docs/screenshots/02-login-2fa.png) |
 
-| Painel Analítico de BI | Gestão da Coordenação |
+| Central de Operação da Cozinha | Planejamento & Decomposição de Cardápio |
 | :---: | :---: |
-| *Métricas Macro, Pesagem de Resíduos e Desempenho* | *Aprovações de Almoço de Contraturno em Lote* |
-| *(Espaço reservado: Painel de BI)* | *(Espaço reservado: Tela da Coordenação)* |
+| *Painel em tempo real de chamadas, contagem de porções e dietas especiais* | *Montagem de cardápio por data/turno com regras de separação nutricional* |
+| ![Operação da Cozinha](docs/screenshots/03-cozinha-producao.png) | ![Planejamento de Cardápio](docs/screenshots/04-criacao-cardapio.png) |
+
+<p align="center">
+  <strong>Painel de Business Intelligence (B.I.) & Auditoria de Desperdício</strong><br />
+  <em>Acompanhamento de sobras limpas, resto de prato (kg) e curva histórica de aprovação do cardápio escolar</em><br />
+  <img src="docs/screenshots/05-painel-bi.png" alt="Painel Analítico de BI" width="95%" />
+</p>
 
 ---
 

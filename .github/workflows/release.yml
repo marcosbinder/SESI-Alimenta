@@ -65,6 +65,7 @@ jobs:
           cp README.md "${DIST_DIR}/"
           cp README.pt-BR.md "${DIST_DIR}/"
           cp CHANGELOG.md "${DIST_DIR}/"
+          cp -r docs "${DIST_DIR}/"
 
           # Copiar build compilado do frontend
           mkdir -p "${DIST_DIR}/site"

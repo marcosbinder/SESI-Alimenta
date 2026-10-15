@@ -126,15 +126,21 @@ flowchart TD
 
 ## 📸 Application Screenshots
 
-| 2FA Authentication | Kitchen Production Board |
+| Institutional Login | 2FA TOTP Authentication |
 | :---: | :---: |
-| *Secure Login with TOTP & Hardware Verification* | *Real-Time Batch Orders & Allergy Alerts* |
-| *(Screenshot Placeholder: Login 2FA)* | *(Screenshot Placeholder: Cozinha)* |
+| *Adaptive auth portal with consent terms & public dashboard access* | *Mandatory RFC 6238 TOTP verification with hardware trust tokens* |
+| ![Institutional Login](docs/screenshots/01-login.png) | ![2FA Authentication](docs/screenshots/02-login-2fa.png) |
 
-| Multidimensional BI Analytics | Coordination Approvals |
+| Kitchen Production Board | Menu Planning & Decomposition |
 | :---: | :---: |
-| *Macro Categories, Waste Audit & Approval Trends* | *Counter-Turn Student Meal Authorizations* |
-| *(Screenshot Placeholder: Painel BI)* | *(Screenshot Placeholder: Coordenação)* |
+| *Real-time batch dispatching, attendance tracking & allergy alerts* | *Calendar-based menu scheduling with nutritional separation rules* |
+| ![Kitchen Production Board](docs/screenshots/03-cozinha-producao.png) | ![Menu Planning](docs/screenshots/04-criacao-cardapio.png) |
+
+<p align="center">
+  <strong>Multidimensional BI Analytics & Waste Auditing</strong><br />
+  <em>Real-time plate waste analysis (kg), pan leftovers, and historical menu approval trends</em><br />
+  <img src="docs/screenshots/05-painel-bi.png" alt="Multidimensional BI Analytics" width="95%" />
+</p>
 
 ---
 
